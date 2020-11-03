@@ -1,5 +1,7 @@
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
+
+const { config } = require('./config/index');
 
 const app = express();
 const contentApi = require('./routes/content');
@@ -16,7 +18,11 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cors());
+// app.use(cors());
+
+app.get('/', (req, res, next) => {
+  res.send({"Hello": "World"});
+});
 
 authApi(app);
 contentApi(app);
@@ -27,6 +33,6 @@ app.use(wrapErrors);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-app.listen(3000, () => {
-  console.log('Listen on http://localhost:3000');
+app.listen(config.port, () => {
+  console.log(`Listen on http://localhost:${config.port}`);
 });
