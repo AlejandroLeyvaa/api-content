@@ -31,7 +31,6 @@ function authApi(app) {
     }
 
     passport.authenticate('basic', function(error, user) {
-      console.log(['Login User'], user);
 
       try {
         if (error || !user) {
@@ -45,17 +44,11 @@ function authApi(app) {
 
           const apiKey = await apiKeysService.getApiKey({ token: apiKeyToken });
 
-          console.log(['API Key'], apiKey);
-
-
           if (!apiKey) {
             next(boom.unauthorized());
           }
 
           const { _id: id, name, email } = user;
-
-          console.log(['User'], user);
-
           const payload = {
             sub: id,
             name,
@@ -66,8 +59,6 @@ function authApi(app) {
           const token = jwt.sign(payload, config.authJwtSecret, {
             expiresIn: '15m'
           });
-
-          console.log(['Token'], token)
 
           return res.status(200).json({
             token,

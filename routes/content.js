@@ -28,8 +28,8 @@ function contentApi(app) {
   const contentService = new ContentService();
 
   router.get('/',
-  // passport.authenticate('jwt', { session: false }),
-  // scopesValidationHandler(['read:content']),
+  passport.authenticate('jwt', { session: false }),
+  scopesValidationHandler(['read:content']),
   async function(req, res, next) {
     cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
     const { tags } = req.query;
@@ -61,8 +61,8 @@ function contentApi(app) {
   });
 
   router.post('/',
-  // passport.authenticate('jwt', { session: false }),
-  // scopesValidationHandler(['create:content']),
+  passport.authenticate('jwt', { session: false }),
+  scopesValidationHandler(['create:content']),
   validationHandler(createPostSchema), async function(
     req,
     res,
